@@ -8,7 +8,16 @@ import numpy as np
 import components
 
 
-sw = None
+class SW():
+    
+    def __init__(self) -> None:
+        self.app = None
+        
+    def set_sw(self, sw):
+        self.app = sw
+
+
+sw = SW()
 
 def connect_sw(sw_year):
     """connect to the solidworks API
@@ -16,13 +25,13 @@ def connect_sw(sw_year):
     Args:
         sw_year (str): solidworks version (year), for example if you have solidworks 2019 pass "2019"
     """
-    
-    global sw
-    sw = win32com.client.Dispatch("SldWorks.Application.%d" % (20+(int(sw_year[-1])-2)))  # e.g. SW2012 is 20, SW2015 is 23
-    
+
+    sw_app = win32com.client.Dispatch("SldWorks.Application.%d" % (20+(int(sw_year[-1])-2)))  # e.g. SW2012 is 20, SW2015 is 23
+
+    sw.set_sw(sw_app)
+
 
 class EditPart():
-
     """
     The class is used as a context manager to edit parts.
     The __enter__() method is called when the 'with' block is entered and the return value
@@ -103,7 +112,7 @@ def open_part(path):
     arg5 = win32com.client.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 2)
     arg6 = win32com.client.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 128)
 
-    return sw.OpenDoc6(arg1, arg2, arg3, "", arg5, arg6)
+    return sw.app.OpenDoc6(arg1, arg2, arg3, "", arg5, arg6)
 
 
 def close(name):
@@ -118,7 +127,7 @@ def close(name):
     if isinstance(name, Path):
         name = name.name
 
-    sw.CloseDoc(name)
+    sw.app.CloseDoc(name)
 
 
 def open_assembly(path):
@@ -136,7 +145,7 @@ def open_assembly(path):
     arg5 = win32com.client.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 2)
     arg6 = win32com.client.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 128)
 
-    return sw.OpenDoc6(arg1, arg2, arg3, "", arg5, arg6)
+    return sw.app.OpenDoc6(arg1, arg2, arg3, "", arg5, arg6)
 
 
 def activate_doc(name):
@@ -153,7 +162,7 @@ def activate_doc(name):
         name = name.name
 
     arg1 = win32com.client.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 0)
-    return sw.ActivateDoc3(name, False, 2, arg1)
+    return sw.app.ActivateDoc3(name, False, 2, arg1)
 
 
 def save_model(model):
@@ -288,7 +297,7 @@ def rebuild_and_save_all():
 
     print('rebuilding and saving all necessary parts and assemblies')
 
-    model = sw.GetFirstDocument
+    model = sw.app.GetFirstDocument
 
     while model is not None:
         
