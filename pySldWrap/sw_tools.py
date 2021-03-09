@@ -8,9 +8,18 @@ import numpy as np
 import components
 
 
-SW_YEAR = '2019' # set the year of the solidworks version, should be a string
-sw = win32com.client.Dispatch("SldWorks.Application.%d" % (20+(int(SW_YEAR[-1])-2)))  # e.g. SW2012 is 20, SW2015 is 23
+sw = None
 
+def connect_sw(sw_year):
+    """connect to the solidworks API
+
+    Args:
+        sw_year (str): solidworks version (year), for example if you have solidworks 2019 pass "2019"
+    """
+    
+    global sw
+    sw = win32com.client.Dispatch("SldWorks.Application.%d" % (20+(int(sw_year[-1])-2)))  # e.g. SW2012 is 20, SW2015 is 23
+    
 
 class EditPart():
 
