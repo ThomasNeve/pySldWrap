@@ -3,9 +3,6 @@ from pathlib import Path
 
 import win32com.client
 import pythoncom
-import numpy as np
-
-import components
 
 
 class SW():
@@ -184,7 +181,7 @@ def save_model(model):
     model.save3(arg1, arg2, arg3)
 
 
-def export_to_step(path_model, dst=None):
+def export_to_step(path_model, dst=Path('./model.STEP')):
 
     """
     Export the model, part or assembly, to a STEP format.
@@ -199,15 +196,12 @@ def export_to_step(path_model, dst=None):
     model = open_model(path_model)
     model = activate_doc(path_model) # activate the model if it was already opened
 
-    extension = 'STEP'
+    extension = '.STEP'
 
-    if not dst:
-        export_folder = Path(components.EXPORT_MODELS_FOLDER)
-        export_folder.mkdir(parents=True, exist_ok=True)
-        nr_models = len(list(export_folder.iterdir()))
-        dst = export_folder / 'model_{}.{}'.format(nr_models, extension)
-
-    dst = (Path.cwd() / dst).resolve()
+    dst = Path(dst).resolve()
+    if dst.suffix is not extension:
+        dst = dst.parent / (dst.name + extension)
+    
     print('exporting to {}'.format(str(dst)))
 
     arg1 = win32com.client.VARIANT(pythoncom.VT_DISPATCH, None)
@@ -510,39 +504,27 @@ def mass_properties(model, coord_sys_name=None, intertia_com=False):
     return properties
 
 
-def copy_assembly(src=components.SLIDER_CRANK_DEFAULT_PATH, dst=None):
-
+def copy_assembly(src, dst):
     """
     Copy the directory passed to src to the dst directory and return the destination path.
     An exception is raised if the dst directory already exists.
 
     Args:
-        src (str, optional): The path of the directory that is copied, by default the default
-            slider crank assembly directory as defined in components.py
-        dst (str, optional): The path of the destination directory. If no path is provided, the 
-            directory is copied to the default modified models directory as defined in 
-            components.py.
+        src (str): The path of the directory that is copied.
+        dst (str): The path of the destination directory.
 
     Returns:
         The path of the destination directory
     """
+    dst = Path(dst)
+    if dst.exists() and dst.is_dir():
+        raise Exception('destination folder already exists')
 
-    if dst:
-        dst = Path(dst)
-        if dst.exists() and dst.is_dir():
-            raise Exception('destination folder already exists')
-    
-    else:
-        modified_models_dir = Path(components.MODIFIED_MODELS_FOLDER)
-        modified_models_dir.mkdir(parents=True, exist_ok=True)
-
-        nr_models = len(list(Path(modified_models_dir).iterdir()))
-        dst = modified_models_dir / 'model_{}'.format(nr_models)
 
     src = Path(src)
     shutil.copytree(src, dst)
 
-    return Path(dst)
+    return dst
 
 
 def replace_component(path_asm, part_id, replace_part_path, replace_all=False):
