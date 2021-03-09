@@ -19,6 +19,7 @@ setup(
   install_requires=[            # I get to this in a second
           'numpy',
           'pywin32',
+          'pathlib'
       ],
   classifiers=[
     'License :: OSI Approved :: MIT License',
