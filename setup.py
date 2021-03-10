@@ -11,10 +11,11 @@ setup(
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'Python Solidworks interface',
   long_description = long_description,
+  long_description_content_type='text/markdown',
   author = 'Thomas Neve',
   author_email = 'thomas.neve@ugent.be',
   url = 'https://github.com/ThomasNeve/pySldWrap',
-  download_url = 'https://github.com/ThomasNeve/pySldWrap/archive/v_01.tar.gz',
+  download_url = 'https://github.com/ThomasNeve/pySldWrap/archive/v0.1.tar.gz',
   keywords = ['solidworks', 'wrapper'],
   install_requires=[            # I get to this in a second
           'numpy',
