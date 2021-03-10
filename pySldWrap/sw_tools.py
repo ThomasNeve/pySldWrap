@@ -189,7 +189,7 @@ def export_to_step(path_model, dst=Path('./model.STEP')):
     Args:
         path_model (str): path to the model that is to be exported.
         dst (str, optional): path of the destination file with the filename and STEP extension,
-            otherwise it is exported to the default directory.
+            otherwise it is exported to the default location (./model.STEP).
     """
 
     path_model = Path(path_model)
@@ -198,8 +198,8 @@ def export_to_step(path_model, dst=Path('./model.STEP')):
 
     extension = '.STEP'
 
-    dst = Path(dst).resolve()
-    if dst.suffix is not extension:
+    dst = Path.cwd() / dst
+    if dst.suffix != extension:
         dst = dst.parent / (dst.name + extension)
     
     print('exporting to {}'.format(str(dst)))
@@ -612,29 +612,4 @@ def generatePartsList(path_asm):
 
 if __name__ == '__main__':
 
-    path_model = components.SLIDER_CRANK_DEFAULT_PATH
-    slider_crank = components.SliderCrank(path_model)
-
-    # path_crank = slider_crank.crank
-    # print(path_crank)
-    # with EditPart(path_crank) as model:
-    #     edit_dimension_sketch(model, "crank_API", "length", 0.05)
-
-    # model = open_part(slider_crank.crank)
-    # properties = mass_properties(model, "CoordinateSystem_API")
-    # # properties = mass_properties(model, "Coordinate System3")
-    # print(properties)
-
-    # model = open_assembly(slider_crank.assembly)
-    # export_to_step(model)
-
-    # replace_component(slider_crank.asm_crank, "parameterized_crank_v2", slider_crank.crank)
-
-    # path_mot_plate = slider_crank.lin_mot_holder_bottom
-    # model = open_model(path_mot_plate)
-    # edit_dimension_extrude(model, 'Cut-Extrude1', 0.001)
-
-    # model = open_model(slider_crank.asm_slider_support)
-    # edit_pattern(model, "LocalLPattern1", D1TotalInstances=8)
-
-    # generatePartsList(slider_crank.assembly)
+    pass
