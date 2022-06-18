@@ -23,7 +23,7 @@ def connect_sw(sw_year):
         sw_year (str): solidworks version (year), for example if you have solidworks 2019 pass "2019"
     """
 
-    sw_app = win32com.client.Dispatch("SldWorks.Application.%d" % (20+(int(sw_year[-1])-2)))  # e.g. SW2012 is 20, SW2015 is 23
+    sw_app = win32com.client.Dispatch("SldWorks.Application.%d" % (int(sw_year)-2012+20))  # e.g. SW2012 is 20, SW2015 is 23
 
     sw.set_sw(sw_app)
 
