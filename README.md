@@ -116,7 +116,7 @@ A part or assembly can be exported to a destination directory with export_to_ste
 ### opening an assembly
 
 ```python
-    path_asm = 'assembly.SLDASM'
+    path_asm = 'assembly.SLDASM'    # should be absolute path here
     sw_tools.open_assembly(path_asm)
 ```
 
