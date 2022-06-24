@@ -127,7 +127,7 @@ def close(name):
     sw.app.CloseDoc(name)
 
 
-def open_assembly(path):
+def open_assembly(abs_path):
 
     """
     Open the assembly at the given path.
@@ -136,7 +136,7 @@ def open_assembly(path):
         path (str): absolute path to the assembly.
     """
 
-    arg1 = win32com.client.VARIANT(pythoncom.VT_BSTR, path)
+    arg1 = win32com.client.VARIANT(pythoncom.VT_BSTR, abs_path)
     arg2 = win32com.client.VARIANT(pythoncom.VT_I4, 2)
     arg3 = win32com.client.VARIANT(pythoncom.VT_I4, 0) #1
     arg5 = win32com.client.VARIANT(pythoncom.VT_BYREF | pythoncom.VT_I4, 2)
