@@ -7,7 +7,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 setup(
   name = 'pySldWrap',
   packages = ['pySldWrap'],
-  version = '0.1',
+  version = '0.2',
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'Python Solidworks interface',
   long_description = long_description,
