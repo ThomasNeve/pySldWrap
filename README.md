@@ -1,6 +1,6 @@
 # pySldWrap
 
-PySldWrap is a python library used for altering SolidWorks models through the SolidWorks API. The API itself uses the windows COM interface whereas this library uses the pywin32 project (win32com python library) to communicate with the COM interface. The python scripts can then be used to modify the parameters of the SolidWorks models. A number of functions are implemented to interact with the SolidWorks software. This includes features like
+PySldWrap is a python library used for altering and interacting with SolidWorks models through the SolidWorks API. A number of python functions are implemented to interact with the SolidWorks software. This includes features like
 
 - opening parts and assemblies
 - modifying sketches and extrudes
@@ -121,3 +121,7 @@ A part or assembly can be exported to a destination directory with export_to_ste
 ```
 
 More info on the available functions and their arguments can be found in the docstrings.
+
+## How does it work
+
+This library uses the pywin32 project (win32com python library) to communicate with the COM interface of the Solidworks API. Python functions are then wrapped around a subset of the Solidworks API.
